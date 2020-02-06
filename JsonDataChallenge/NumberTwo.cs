@@ -31,7 +31,7 @@ namespace JsonDataChallenge
 
     public class MethodsTwo
     {
-        static string json2Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data2.json";
+        static string json2Path = @"D:\Programming\Refactory\JsonDataChallenges\JsonDataChallenge\Database\Data2.json";
 
         public static string FebPurchases()
         {
@@ -73,8 +73,7 @@ namespace JsonDataChallenge
             return result2;
         }
 
-
-        //STUPID ANSWER
+        //LONG ANSWER
 
         //public static string Irit()
         //{

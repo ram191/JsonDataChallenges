@@ -48,7 +48,7 @@ namespace JsonDataChallenge
 
     public class Methods
     {
-        static string json1Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data1.json";
+        static string json1Path = @"D:\Programming\Refactory\JsonDataChallenges\JsonDataChallenge\Database\Data1.json";
 
 
         public static string NoPhone()
