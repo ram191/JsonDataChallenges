@@ -17,9 +17,10 @@ namespace JsonDataChallenge
             //Console.WriteLine(Methods.BornIn1986());
             //Console.WriteLine(Methods.Has2020());
             //Console.WriteLine(Methods.ContainTips());
-            Console.WriteLine(Methods.BeforeAugust2019());
+            //Console.WriteLine(Methods.BeforeAugust2019());
 
-
+            Console.WriteLine(MethodsTwo.FebPurchases());
+            Console.WriteLine(MethodsTwo.AriBoros());
         }
     }
 
@@ -156,7 +157,7 @@ namespace JsonDataChallenge
                         var x = y.Title.ToLower();
                         if (x.Contains("tips"))
                         {
-                            result.Add(i.Profile.Full_name);
+                            result.Add(y.Title);
                         }
                     }
                 }
@@ -179,7 +180,7 @@ namespace JsonDataChallenge
                         var x = y.Published_at.ToLocalTime();
                         if (x.Year < 2020 && x.Month < 08)
                         {
-                            result.Add(i.Profile.Full_name);
+                            result.Add(y.Title);
                         }
                     }
                 }
