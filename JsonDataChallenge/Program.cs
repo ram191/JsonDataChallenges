@@ -19,8 +19,10 @@ namespace JsonDataChallenge
             //Console.WriteLine(Methods.ContainTips());
             //Console.WriteLine(Methods.BeforeAugust2019());
 
-            Console.WriteLine(MethodsTwo.FebPurchases());
-            Console.WriteLine(MethodsTwo.AriBoros());
+            //Console.WriteLine(MethodsTwo.FebPurchases());
+            //Console.WriteLine(MethodsTwo.AriBoros());
+
+            MethodsThree.AllBrown();
         }
     }
 
@@ -48,7 +50,7 @@ namespace JsonDataChallenge
 
     public class Methods
     {
-        static string json1Path = @"D:\Programming\Refactory\JsonDataChallenges\JsonDataChallenge\Database\Data1.json";
+        static string json1Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data1.json";
 
 
         public static string NoPhone()
