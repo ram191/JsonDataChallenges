@@ -73,54 +73,59 @@ namespace JsonDataChallenge
             return result2;
         }
 
-        //LONG ANSWER
+        public static string Irit()
+        {
+            var json = File.ReadAllText(json2Path);
+            var jArray = JsonConvert.DeserializeObject<List<Order>>(json);
+            List<string> hasil = new List<string>()
+            {
+                "Ari",
+                "Ririn",
+                "Annis"
+            };
+            foreach(var x in jArray)
+            {
+                int grandAri;
+                int grandRirin;
+                int grandAnnis;
+                if (x.Customer.Id == 33)
+                {
+                    foreach(var y in x.Items)
+                    {
+                        grandAri = y.Price * y.Qty;
+                        if(grandAri > 300000)
+                        {
+                            hasil.Remove("Ari");
+                        }
+                    }
+                }
+                
+                else if (x.Customer.Id == 33)
+                {
+                    foreach (var y in x.Items)
+                    {
+                        grandRirin = y.Price * y.Qty;
+                        if (grandRirin > 300000)
+                        {
+                            hasil.Remove("Ari");
+                        }
+                    }
+                }
+                
+                else if (x.Customer.Id == 33)
+                {
+                    foreach (var y in x.Items)
+                    {
+                        grandAnnis = y.Price * y.Qty;
+                        if (grandAnnis > 300000)
+                        {
+                            hasil.Remove("Ari");
+                        }
+                    }
+                }
+            }   
 
-        //public static string Irit()
-        //{
-        //    var json = File.ReadAllText(json2Path);
-        //    var jArray = JsonConvert.DeserializeObject<List<Order>>(json);
-        //    List<int> ari = new List<int>();
-        //    List<int> ririn = new List<int>();
-        //    List<int> annis = new List<int>();
-
-        //    foreach (var i in jArray)
-        //    {
-        //        if (i.Customer.Name == "Ari")
-        //        {
-        //            foreach (var y in i.Items)
-        //            {
-        //                {
-        //                    ari.Add(y.Price * y.Qty);
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    foreach (var i in jArray)
-        //    {
-        //        if (i.Customer.Name == "Ririn")
-        //        {
-        //            foreach (var y in i.Items)
-        //            {
-        //                {
-        //                    ririn.Add(y.Price * y.Qty);
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    foreach (var i in jArray)
-        //    {
-        //        if (i.Customer.Name == "Annis")
-        //        {
-        //            foreach (var y in i.Items)
-        //            {
-        //                {
-        //                    annis.Add(y.Price * y.Qty);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+            return String.Join(',', hasil);
+        }
     }
 }
