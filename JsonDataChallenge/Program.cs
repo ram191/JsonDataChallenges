@@ -22,7 +22,7 @@ namespace JsonDataChallenge
             //Console.WriteLine(MethodsTwo.FebPurchases());
             //Console.WriteLine(MethodsTwo.AriBoros());
 
-            MethodsThree.AllBrown();
+            MethodsThree.PurchasedAt();
         }
     }
 

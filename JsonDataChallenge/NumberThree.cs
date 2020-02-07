@@ -87,25 +87,26 @@ namespace JsonDataChallenge
             File.WriteAllText(savePath, hasil);
         }
 
-        //public static void PurchasedAt()
-        //{
-        //    string savePath = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Furniture.json";
-        //    var json = File.ReadAllText(json3Path);
-        //    var jArray = JsonConvert.DeserializeObject<List<Inventory>>(json);
-        //    List<Inventory> result = new List<Inventory>();
+        public static void PurchasedAt()
+        {
+            string savePath = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/purchased-at-2020-01-16.json.json";
+            var json = File.ReadAllText(json3Path);
+            var jArray = JsonConvert.DeserializeObject<List<Inventory>>(json);
+            List<Inventory> result = new List<Inventory>();
 
-        //    foreach (var i in jArray)
-        //    {
-        //        var x = i.Purchased_at.TryFormat()
-        //        if (x.Day == 16 && x.Month == 01 && x.Year == 2020)
-        //        {
-        //            result.Add(i);
-        //        }
-        //    }
+            foreach (var i in jArray)
+            {
+                var timestamp = i.Purchased_at;
+                var x = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(timestamp);
+                if (x.Day == 16 && x.Month == 01 && x.Year == 2020)
+                {
+                    result.Add(i);
+                }
+            }
 
-        //    var hasil = JsonConvert.SerializeObject(result);
-        //    File.WriteAllText(savePath, hasil);
-        //}
+            var hasil = JsonConvert.SerializeObject(result);
+            File.WriteAllText(savePath, hasil);
+        }
 
         public static void AllBrown()
         {
