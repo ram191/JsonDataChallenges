@@ -6,13 +6,7 @@ using Newtonsoft.Json;
 
 namespace JsonDataChallenge
 {
-    public class NumberOne
-    {
-        public NumberOne()
-        {
-        }
-    }
-
+    //The Classes
     public class UserArticles
     {
         public string Id { get; set; }
@@ -35,149 +29,51 @@ namespace JsonDataChallenge
         public DateTime Published_at { get; set; }
     }
 
-    public class Methods
+    public class Database
     {
-        static string json1Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data1.json";
-
-
-        public static string NoPhone()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                if (i.Profile.Phones.Count == 0)
-                {
-                    result.Add(i.Profile.Full_name);
-                }
-            }
-            return String.Join(',', result);
-        }
-
-        public static string HasArticles()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                foreach (var y in i.Articles)
-                {
-                    if (y.Id != 0)
-                    {
-                        result.Add(i.Profile.Full_name);
-                    }
-                }
-            }
-            return String.Join(',', result);
-        }
-
-        public static string HasAnnis()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                var x = i.Profile.Full_name.ToLower();
-                if (x.Contains("annis"))
-                {
-                    result.Add(i.Profile.Full_name);
-                }
-            }
-            return String.Join(',', result);
-        }
-
-        public static string Has2020()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                foreach (var y in i.Articles)
-                {
-                    {
-                        var x = y.Published_at.ToLocalTime();
-                        if (x.Year == 2020)
-                        {
-                            result.Add(i.Profile.Full_name);
-                        }
-                    }
-                }
-            }
-            var result2 = result.Distinct();
-            return String.Join(',', result2);
-        }
-
-        public static string BornIn1986()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                var y = i.Profile.Birthday.ToLocalTime();
-                if (y.Year == 1986)
-                {
-                    result.Add(i.Profile.Full_name);
-                }
-            }
-            return String.Join(',', result);
-        }
-
-        public static string ContainTips()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                foreach (var y in i.Articles)
-                {
-                    {
-                        var x = y.Title.ToLower();
-                        if (x.Contains("tips"))
-                        {
-                            result.Add(y.Title);
-                        }
-                    }
-                }
-            }
-            var result2 = result.Distinct();
-            return String.Join(',', result2);
-        }
-
-        public static string BeforeAugust2019()
-        {
-            var json = File.ReadAllText(json1Path);
-            var jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                foreach (var y in i.Articles)
-                {
-                    {
-                        var x = y.Published_at.ToLocalTime();
-                        if (x.Year < 2020 && x.Month < 08)
-                        {
-                            result.Add(y.Title);
-                        }
-                    }
-                }
-            }
-            var result2 = result.Distinct();
-            return String.Join(',', result2);
-        }
-
+        protected static string json1Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data1.json";
+        protected static string json = File.ReadAllText(json1Path);
+        protected static List<UserArticles> jArray = JsonConvert.DeserializeObject<List<UserArticles>>(json);
     }
 
+    //Methods
+    public class Methods : Database
+    {
+
+        public static IEnumerable<string> NoPhone()
+        {
+            return jArray.Where(x => !x.Profile.Phones.Any()).Select(x => x.Profile.Full_name);
+        }
+
+        public static IEnumerable<string> HasArticles()
+        {
+            return jArray.Where(x => !x.Articles.Any()).Select(x => x.Profile.Full_name);
+        }
+
+        public static IEnumerable<string> HasAnnis()
+        {
+            return jArray.Where(x => x.Profile.Full_name.ToLower().Contains("annis")).Select(x => x.Profile.Full_name);
+        }
+
+        public static IEnumerable<string> Has2020()
+        {
+            return jArray.Where(x => x.Articles.Any(y => y.Published_at.ToLocalTime().Year == 2020)).Select(x => x.Profile.Full_name);
+        }
+
+        public static IEnumerable<string> BornIn1986()
+        {
+            return jArray.Where(x => x.Profile.Birthday.ToLocalTime().Year == 1986).Select(x => x.Profile.Full_name);
+        }
+
+        public static IEnumerable<string> ContainTips()
+        {
+            return jArray.SelectMany(x => x.Articles.Where(x => x.Title.ToLower().Contains("tips")).Select(x => x.Title));
+        }
+
+        public static IEnumerable<string> BeforeAugust2019()
+        {
+            return jArray.SelectMany(x => x.Articles.Where(x => x.Published_at.ToLocalTime().Year < 2020)
+            .Where(x => x.Published_at.ToLocalTime().Month < 08).Select(x => x.Title));
+        }
+    }
 }

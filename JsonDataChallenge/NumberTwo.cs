@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace JsonDataChallenge
 {
+    //The Classes
     public class Order
     {
         public string Order_id { get; set; }
@@ -28,103 +29,36 @@ namespace JsonDataChallenge
         public int Price { get; set; }
     }
 
-    public class MethodsTwo
+    public class DatabaseTwo
     {
-        static string json2Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data2.json";
+        protected static string json2Path = @"/Users/training/Projects/JsonDataChallenge/JsonDataChallenge/Database/Data2.json";
+        protected static string json = File.ReadAllText(json2Path);
+        protected static List<Order> jArray = JsonConvert.DeserializeObject<List<Order>>(json);
+    }
 
-        public static string FebPurchases()
+    //Methods
+    public class MethodsTwo : DatabaseTwo
+    {
+        public static IEnumerable<Order> FebPurchases()
         {
-            var json = File.ReadAllText(json2Path);
-            var jArray = JsonConvert.DeserializeObject<List<Order>>(json);
-            List<string> result = new List<string>();
-
-            foreach (var i in jArray)
-            {
-                var x = i.Created_at.ToLocalTime();
-                if (x.Month == 02)
-                {
-                    result.Add(i.Order_id);
-                }
-            }
-            return String.Join(',', result);
+            return jArray.Where(x => x.Created_at.ToLocalTime().Month == 02);
         }
 
         public static int AriBoros()
         {
-            var json = File.ReadAllText(json2Path);
-            var jArray = JsonConvert.DeserializeObject<List<Order>>(json);
-            List<int> result = new List<int>();
-
-            foreach (var i in jArray)
-            {
-                if (i.Customer.Name == "Ari")
-                {
-                    foreach (var y in i.Items)
-                    {
-                        {
-                            result.Add(y.Price * y.Qty);
-                        }
-                    }
-                }
-
-            }
-            var result2 = result.Sum();
-            return result2;
+            return jArray.Where(x => x.Customer.Name.ToLower() == "ari")
+                .Sum(x => x.Items.Sum(x => x.Price * x.Qty));
         }
 
-        public static string Irit()
+        public static IEnumerable<string> Irit()
         {
-            var json = File.ReadAllText(json2Path);
-            var jArray = JsonConvert.DeserializeObject<List<Order>>(json);
-            List<string> hasil = new List<string>()
-            {
-                "Ari",
-                "Ririn",
-                "Annis"
-            };
-            foreach(var x in jArray)
-            {
-                int grandAri;
-                int grandRirin;
-                int grandAnnis;
-                if (x.Customer.Id == 33)
-                {
-                    foreach(var y in x.Items)
-                    {
-                        grandAri = y.Price * y.Qty;
-                        if(grandAri > 300000)
-                        {
-                            hasil.Remove("Ari");
-                        }
-                    }
-                }
-                
-                else if (x.Customer.Id == 33)
-                {
-                    foreach (var y in x.Items)
-                    {
-                        grandRirin = y.Price * y.Qty;
-                        if (grandRirin > 300000)
-                        {
-                            hasil.Remove("Ari");
-                        }
-                    }
-                }
-                
-                else if (x.Customer.Id == 33)
-                {
-                    foreach (var y in x.Items)
-                    {
-                        grandAnnis = y.Price * y.Qty;
-                        if (grandAnnis > 300000)
-                        {
-                            hasil.Remove("Ari");
-                        }
-                    }
-                }
-            }   
-
-            return String.Join(',', hasil);
+            return jArray
+                .GroupBy(x => x.Customer.Name,
+                x => x.Items.Sum(x => x.Price * x.Qty),
+                (name, total) => new
+                    { Key = name, Total = total.Sum() })
+                .Where(x => x.Total < 300000)
+                .Select(x => x.Key);
         }
     }
 }
